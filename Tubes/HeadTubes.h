@@ -49,5 +49,7 @@ struct Menu
     adrMenuMinuman firstMinuman;
 };
 
+void createAntrian(antrian &Q);
+void createPelanggan(adrPelanggan &P, string nama);
 
 #endif // HEADTUBES_H_INCLUDED
