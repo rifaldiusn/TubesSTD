@@ -1,9 +1,10 @@
 #include <iostream>
-
+#include "HeadTubes.h"
 using namespace std;
 
 int main()
 {
-    cout << "Beres ini mah" << endl;
-    return 0;
+    antrian AntrianPelanggan;
+    createAntrian(AntrianPelanggan);
+    
 }

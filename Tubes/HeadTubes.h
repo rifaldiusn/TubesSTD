@@ -21,7 +21,7 @@ struct Pesanan
     adrPesanan nextPesanan;
 };
 
-struct pelanggan
+struct Pelanggan
 {
     string nama;
     int totalHarga; 
@@ -51,5 +51,17 @@ struct Menu
 
 void createAntrian(antrian &Q);
 void createPelanggan(adrPelanggan &P, string nama);
+void createPesanan(adrPesanan &P, string namaPesanan, int harga);
+void createMenuMakanan(adrMenuMakanan &P, string namaMenu, int harga);
+void createMenuMinuman(adrMenuMinuman &P, string namaMenu, int harga);
+void createMenu(Menu &M);
+
+void Mainmenu();
+void isiMenu(Menu &M);
+
+void insertMenuMakanan(Menu &M, string namaMenu, int harga);
+void insertMenuMinuman(Menu &M, string namaMenu, int harga);
+
+
 
 #endif // HEADTUBES_H_INCLUDED
