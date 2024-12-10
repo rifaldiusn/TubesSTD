@@ -5,20 +5,15 @@ using namespace std;
 
 typedef struct Pelanggan *adrPelanggan;
 typedef struct Pesanan *adrPesanan;
-typedef struct MenuMakanan *adrMenuMakanan;
-typedef struct MenuMinuman *adrMenuMinuman;
-
-struct antrian
-{
-    adrPelanggan headPelanggan;
-    adrPelanggan tailPelanggan;
-};
+typedef struct Menu *adrMenu;
 
 struct Pesanan
 {
     string namaPesanan;
     int harga;
     adrPesanan nextPesanan;
+    adrMenu ListMenu; 
+    adrPelanggan customer; 
 };
 
 struct Pelanggan
@@ -26,42 +21,35 @@ struct Pelanggan
     string nama;
     int totalHarga; 
     adrPelanggan nextPelanggan;
+    adrPelanggan prevPelanggan;
     adrPesanan firstPesanan;
-};
-
-struct MenuMakanan
-{
-    string namaMenu;
-    int harga;
-    adrMenuMakanan nextMakanan;
-};
-
-struct MenuMinuman
-{
-    string namaMenu;
-    int harga;
-    adrMenuMinuman nextMinuman;
 };
 
 struct Menu
 {
-    adrMenuMakanan firstMakanan;
-    adrMenuMinuman firstMinuman;
+    string Nama;
+    int harga; 
+    adrMenu nextMenu; 
 };
 
-void createAntrian(antrian &Q);
-void createPelanggan(adrPelanggan &P, string nama);
-void createPesanan(adrPesanan &P, string namaPesanan, int harga);
-void createMenuMakanan(adrMenuMakanan &P, string namaMenu, int harga);
-void createMenuMinuman(adrMenuMinuman &P, string namaMenu, int harga);
-void createMenu(Menu &M);
+struct ListMenu{
+    adrMenu firstMenu; 
+};
 
-void Mainmenu();
-void isiMenu(Menu &M);
+struct ListPelanggan
+{
+    adrPelanggan firstPelanggan;
+    adrPelanggan LastPelanggan;
+};
 
-void insertMenuMakanan(Menu &M, string namaMenu, int harga);
-void insertMenuMinuman(Menu &M, string namaMenu, int harga);
+void buatMenu(adrMenu M,string NamaMenu, int harga);
+void buatListMenu(ListMenu P);
+void insertMenu(ListMenu L, adrMenu M);
 
+void buatPelanggan(adrPelanggan P,string namaPelanggan,int Harga);
+void buatListPelanggan(ListPelanggan P);
+void insertPelanggan(ListPelanggan L,adrPelanggan P);
 
+void buatPesanan();
 
 #endif // HEADTUBES_H_INCLUDED

@@ -2,98 +2,100 @@
 #include "HeadTubes.h"
 using namespace std;
 
-void createAntrian(antrian &Q)
-{
-    Q.headPelanggan = NULL;
-    Q.tailPelanggan = NULL;
+void buatMenu(adrMenu M,string NamaMenu, int harga){
+    M = new Menu; 
+    M->Nama = NamaMenu;
+    M->harga = harga; 
+    M->nextMenu = NULL; 
 }
 
-void createPelanggan(adrPelanggan &P, string nama)
+void buatListMenu(ListMenu *P){
+    P->firstMenu = NULL;
+}
+
+void insertMenu(ListMenu *L, adrMenu M){
+    if (L->firstMenu == NULL){
+        L->firstMenu = M;
+    }else{
+        adrMenu Q = L->firstMenu; 
+        while (Q->nextMenu != NULL){
+            Q = Q->nextMenu; 
+        }
+        Q->nextMenu = M;
+    }
+}
+
+void deleteFirst(ListMenu *L) {
+    if (L->firstMenu == NULL) {
+        // Jika list kosong, tidak ada yang dihapus
+        return;
+    } else if (L->firstMenu->nextMenu == NULL) {
+        // Jika list hanya memiliki satu node, maka hapus node tersebut
+        delete L->firstMenu;
+        L->firstMenu = NULL;
+    } else {
+        // Jika list memiliki lebih dari satu node, maka hapus node pertama
+        adrMenu P = L->firstMenu;
+        L->firstMenu = P->nextMenu;
+        delete P;
+    }
+}
+
+void buatPelanggan(adrPelanggan P,string namaPelanggan,int harga )
 {
     P = new Pelanggan;
-    P->nama = nama;
-    P->totalHarga = 0;
+    P->nama = namaPelanggan;
+    P->totalHarga = harga;
     P->nextPelanggan = NULL;
-    P->firstPesanan = NULL;
+    P->prevPelanggan = NULL;
 }
 
-void createPesanan(adrPesanan &P, string namaPesanan, int harga)
+void buatListPelanggan(ListPelanggan *P)
 {
-    P = new Pesanan;
-    P->namaPesanan = namaPesanan;
-    P->harga = harga;
-    P->nextPesanan = NULL;
+    P->firstPelanggan = NULL;
+    P->LastPelanggan = NULL;
 }
 
-void createMenuMakanan(adrMenuMakanan &P, string namaMenu, int harga)
-{
-    P = new MenuMakanan;
-    P->namaMenu = namaMenu;
-    P->harga = harga;
-    P->nextMakanan = NULL;
-}
-
-void createMenuMinuman(adrMenuMinuman &P, string namaMenu, int harga)
-{
-    P = new MenuMinuman;
-    P->namaMenu = namaMenu;
-    P->harga = harga;
-    P->nextMinuman = NULL;
-}
-
-void createMenu(Menu &M)
-{
-    M.firstMakanan = NULL;
-    M.firstMinuman = NULL;
-}
-
-void insertMenuMakanan(Menu &M, string namaMenu, int harga)
-{
-    adrMenuMakanan P;
-    createMenuMakanan(P, namaMenu, harga);
-    if (M.firstMakanan == NULL)
-    {
-        M.firstMakanan = P;
-    }else {
-        adrMenuMakanan Q = M.firstMakanan;
-        while (Q->nextMakanan != NULL)
-        {
-            Q = Q->nextMakanan;
-        }
-        Q->nextMakanan = P;
+void insertPelanggan(ListPelanggan *L, adrPelanggan P) {
+    if (L->firstPelanggan == NULL) {
+        
+        L->firstPelanggan = P;
+        L->LastPelanggan = P;
+        P->prevPelanggan = NULL;
+        P->nextPelanggan = NULL;
+    } else {
+       
+        P->nextPelanggan = L->firstPelanggan;
+        L->firstPelanggan->prevPelanggan = P;
+        L->firstPelanggan = P;
+        P->prevPelanggan = NULL;
     }
 }
 
-void insertMenuMinuman(Menu &M, string namaMenu, int harga)
-{
-    adrMenuMinuman P;
-    createMenuMinuman(P, namaMenu, harga);
-    if (M.firstMinuman == NULL)
-    {
-        M.firstMinuman = P;
-    }else {
-        adrMenuMinuman Q = M.firstMinuman;
-        while (Q->nextMinuman != NULL)
-        {
-            Q = Q->nextMinuman;
-        }
-        Q->nextMinuman = P;
+void deleteFirstPelanggan(ListPelanggan *L) {
+    if (L->firstPelanggan == NULL) {
+        // Jika list kosong, tidak ada yang dihapus
+        return;
+    } else if (L->firstPelanggan == L->LastPelanggan) {
+        // Jika list hanya memiliki satu node, maka hapus node tersebut
+        L->firstPelanggan = NULL;
+        L->LastPelanggan = NULL;
+    } else {
+        // Jika list memiliki lebih dari satu node, maka hapus node pertama
+        adrPelanggan P = L->firstPelanggan;
+        L->firstPelanggan = L->firstPelanggan->nextPelanggan;
+        L->firstPelanggan->prevPelanggan = NULL;
+        P->nextPelanggan = NULL;
+        delete P; // Hapus node yang telah dihapus
     }
 }
-void isiMenu(Menu &M)
-{
-    adrMenuMakanan Makanan;
-    adrMenuMinuman Minuman;
 
-    insertMenuMakanan(M, "Nasi Goreng", 15000);
-    insertMenuMakanan(M, "Mie Goreng", 15000);
-    insertMenuMinuman(M, "Es Teh", 5000);
-}
-
-void mainMenu(){
-    cout << "========================";
-    cout << "        M E N U         ";
-    cout << "Restaurant Kuy Makan Kuy";
-    cout << "========================";
-
+void printPelanggan(ListPelanggan L) {
+    adrPelanggan P = L.firstPelanggan;
+    while (P != NULL) {
+        cout << "Nama Pelanggan: " << P->nama << endl;
+        cout << "Total Harga: " << P->totalHarga << endl;
+        cout << endl;
+        P = P->nextPelanggan;
+    }
 }
