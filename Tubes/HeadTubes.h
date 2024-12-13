@@ -49,7 +49,11 @@ void insertMenu(ListMenu L, adrMenu M);
 void buatPelanggan(adrPelanggan P,string namaPelanggan,int Harga);
 void buatListPelanggan(ListPelanggan P);
 void insertPelanggan(ListPelanggan L,adrPelanggan P);
+void printPelanggan(ListPelanggan L);
+void deleteFirstPelanggan(ListPelanggan *L);
+
 
 void buatPesanan();
+
 
 #endif // HEADTUBES_H_INCLUDED

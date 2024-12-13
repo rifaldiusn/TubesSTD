@@ -99,3 +99,10 @@ void printPelanggan(ListPelanggan L) {
         P = P->nextPelanggan;
     }
 }
+
+void buatPesanan(adrPesanan P,string NamaMenu, int harga){
+    P = new Pesanan; 
+    P->Nama = NamaMenu;
+    P->harga = harga; 
+    P->nextPesanan = NULL; 
+}
