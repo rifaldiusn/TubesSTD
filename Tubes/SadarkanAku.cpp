@@ -2,11 +2,12 @@
 #include "HeadTubes.h"
 using namespace std;
 
-void buatMenu(adrMenu M,string NamaMenu, int harga){
-    M = new Menu; 
+adrMenu buatMenu(string NamaMenu, int harga){
+   adrMenu M = new Menu; 
     M->Nama = NamaMenu;
     M->harga = harga; 
     M->nextMenu = NULL; 
+    return M;
 }
 
 void buatListMenu(ListMenu *P){
@@ -24,6 +25,44 @@ void insertMenu(ListMenu *L, adrMenu M){
         Q->nextMenu = M;
     }
 }
+
+void isiMenu(ListMenu *L){
+    adrMenu M;
+    M = buatMenu("kopi kisah asmara", 30000);
+    insertMenu(L,M);
+    M = buatMenu("kopi kisah manis", 27000);
+    insertMenu(L,M);
+    M = buatMenu("kopi kisah aren", 25000);
+    insertMenu(L,M);
+    M = buatMenu("golden latte", 33000);
+    insertMenu(L,M);
+    M = buatMenu("bajigur latte", 33000);
+    insertMenu(L,M);
+    M = buatMenu("kopi susu lokal", 23000);
+
+}
+
+void printMenu(ListMenu L) {
+    adrMenu M = L.firstMenu;
+    cout << "+--------------------+--------+" << endl;
+    cout << "| Nama Menu          | Harga  |" << endl;
+    cout << "+--------------------+--------+" << endl;
+    while (M != nullptr) {
+        cout << "| " << M->Nama;
+        for (int i = M->Nama.length(); i < 21; i++) {
+            cout << " ";
+        }
+        cout << "| " << M->harga;
+        for (int i = to_string(M->harga).length(); i < 7; i++) {
+            cout << " ";
+        }
+        cout << "|" << endl;
+        M = M->nextMenu;
+    }
+    cout << "+--------------------+--------+" << endl;
+}
+
+
 
 void deleteFirst(ListMenu *L) {
     if (L->firstMenu == NULL) {
@@ -65,28 +104,25 @@ void insertPelanggan(ListPelanggan *L, adrPelanggan P) {
         P->nextPelanggan = NULL;
     } else {
        
-        P->nextPelanggan = L->firstPelanggan;
-        L->firstPelanggan->prevPelanggan = P;
-        L->firstPelanggan = P;
-        P->prevPelanggan = NULL;
+        L->LastPelanggan->nextPelanggan = P;
+        P->prevPelanggan = L->LastPelanggan;
+        L->LastPelanggan = P;
+        P->nextPelanggan = NULL;
     }
 }
 
 void deleteFirstPelanggan(ListPelanggan *L) {
     if (L->firstPelanggan == NULL) {
-        // Jika list kosong, tidak ada yang dihapus
         return;
     } else if (L->firstPelanggan == L->LastPelanggan) {
-        // Jika list hanya memiliki satu node, maka hapus node tersebut
         L->firstPelanggan = NULL;
         L->LastPelanggan = NULL;
     } else {
-        // Jika list memiliki lebih dari satu node, maka hapus node pertama
         adrPelanggan P = L->firstPelanggan;
         L->firstPelanggan = L->firstPelanggan->nextPelanggan;
         L->firstPelanggan->prevPelanggan = NULL;
         P->nextPelanggan = NULL;
-        delete P; // Hapus node yang telah dihapus
+        delete P; 
     }
 }
 
@@ -100,9 +136,13 @@ void printPelanggan(ListPelanggan L) {
     }
 }
 
-void buatPesanan(adrPesanan P,string NamaMenu, int harga){
-    P = new Pesanan; 
-    P->Nama = NamaMenu;
-    P->harga = harga; 
-    P->nextPesanan = NULL; 
+void buatPesanan(adrPesanan P){
+    P = new Pesanan;
+    P->nextPesanan = NULL;
+    P->Menu = NULL;
+    P->Pelanggan = NULL;
+}
+
+void buatListPesanan(ListPesanan *P){
+    P->firstPesanan = NULL;
 }

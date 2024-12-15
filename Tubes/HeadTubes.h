@@ -9,12 +9,16 @@ typedef struct Menu *adrMenu;
 
 struct Pesanan
 {
-    string namaPesanan;
-    int harga;
     adrPesanan nextPesanan;
-    adrMenu ListMenu; 
-    adrPelanggan customer; 
+    adrMenu Menu; 
+    adrPelanggan Pelanggan;
 };
+
+struct  ListPesanan
+{
+    adrPesanan firstPesanan;
+};
+
 
 struct Pelanggan
 {
@@ -22,8 +26,15 @@ struct Pelanggan
     int totalHarga; 
     adrPelanggan nextPelanggan;
     adrPelanggan prevPelanggan;
-    adrPesanan firstPesanan;
+
 };
+
+struct ListPelanggan
+{
+    adrPelanggan firstPelanggan;
+    adrPelanggan LastPelanggan;
+};
+
 
 struct Menu
 {
@@ -36,15 +47,13 @@ struct ListMenu{
     adrMenu firstMenu; 
 };
 
-struct ListPelanggan
-{
-    adrPelanggan firstPelanggan;
-    adrPelanggan LastPelanggan;
-};
 
-void buatMenu(adrMenu M,string NamaMenu, int harga);
-void buatListMenu(ListMenu P);
+
+adrMenu buatMenu(string NamaMenu, int harga);
+void buatListMenu(ListMenu *P);
 void insertMenu(ListMenu L, adrMenu M);
+void isiMenu(ListMenu *L);
+void printMenu(ListMenu L);
 
 void buatPelanggan(adrPelanggan P,string namaPelanggan,int Harga);
 void buatListPelanggan(ListPelanggan P);
@@ -53,7 +62,8 @@ void printPelanggan(ListPelanggan L);
 void deleteFirstPelanggan(ListPelanggan *L);
 
 
-void buatPesanan();
+void buatPesanan(adrPesanan P,string namaPesanan, int harga, adrMenu M);
+void buatListPesanan(ListPesanan *P);
 
 
 #endif // HEADTUBES_H_INCLUDED

@@ -4,6 +4,8 @@ using namespace std;
 
 int main()
 {
-    cout << "kontol" << endl;
-    
+    ListMenu Lmenu;
+    buatListMenu(&Lmenu);
+    isiMenu(&Lmenu);
+    printMenu(Lmenu);
 }
