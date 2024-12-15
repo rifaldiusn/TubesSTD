@@ -54,15 +54,16 @@ void buatListMenu(ListMenu *P);
 void insertMenu(ListMenu L, adrMenu M);
 void isiMenu(ListMenu *L);
 void printMenu(ListMenu L);
+adrMenu searchMenu(ListMenu L, string NamaMenu);
 
-void buatPelanggan(adrPelanggan P,string namaPelanggan,int Harga);
-void buatListPelanggan(ListPelanggan P);
+adrPelanggan buatPelanggan(string namaPelanggan,int Harga);
+void buatListPelanggan(ListPelanggan *P);
 void insertPelanggan(ListPelanggan L,adrPelanggan P);
 void printPelanggan(ListPelanggan L);
 void deleteFirstPelanggan(ListPelanggan *L);
 
 
-void buatPesanan(adrPesanan P,string namaPesanan, int harga, adrMenu M);
+adrPesanan buatPesanan(adrMenu M, adrPelanggan P);
 void buatListPesanan(ListPesanan *P);
 
 

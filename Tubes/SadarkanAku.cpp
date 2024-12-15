@@ -34,7 +34,7 @@ void isiMenu(ListMenu *L){
     insertMenu(L,M);
     M = buatMenu("kopi kisah aren", 25000);
     insertMenu(L,M);
-    M = buatMenu("golden latte", 33000);
+    M = buatMenu("golden", 33000);
     insertMenu(L,M);
     M = buatMenu("bajigur latte", 33000);
     insertMenu(L,M);
@@ -62,6 +62,16 @@ void printMenu(ListMenu L) {
     cout << "+--------------------+--------+" << endl;
 }
 
+adrMenu searchMenu(ListMenu L, string NamaMenu){
+    adrMenu M = L.firstMenu;
+    while (M != NULL){
+        if (M->Nama == NamaMenu){
+            return M;
+        }
+        M = M->nextMenu;
+    }
+    return NULL;
+}
 
 
 void deleteFirst(ListMenu *L) {
@@ -80,13 +90,14 @@ void deleteFirst(ListMenu *L) {
     }
 }
 
-void buatPelanggan(adrPelanggan P,string namaPelanggan,int harga )
+adrPelanggan buatPelanggan(string namaPelanggan, int harga)
 {
-    P = new Pelanggan;
-    P->nama = namaPelanggan;
-    P->totalHarga = harga;
-    P->nextPelanggan = NULL;
-    P->prevPelanggan = NULL;
+    adrPelanggan Pp = new Pelanggan;
+    Pp->nama = namaPelanggan;
+    Pp->totalHarga = harga;
+    Pp->nextPelanggan = NULL;
+    Pp->prevPelanggan = NULL;
+    return Pp;
 }
 
 void buatListPelanggan(ListPelanggan *P)
@@ -136,11 +147,12 @@ void printPelanggan(ListPelanggan L) {
     }
 }
 
-void buatPesanan(adrPesanan P){
-    P = new Pesanan;
-    P->nextPesanan = NULL;
-    P->Menu = NULL;
-    P->Pelanggan = NULL;
+adrPesanan buatPesanan(adrMenu M, adrPelanggan P){
+    adrPesanan Ps = new Pesanan;
+    Ps->nextPesanan = NULL;
+    Ps->Menu = M;
+    Ps->Pelanggan = P;
+    return Ps;
 }
 
 void buatListPesanan(ListPesanan *P){
