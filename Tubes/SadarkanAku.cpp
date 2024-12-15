@@ -3,10 +3,10 @@
 using namespace std;
 
 adrMenu buatMenu(string NamaMenu, int harga){
-   adrMenu M = new Menu; 
+   adrMenu M = new Menu;
     M->Nama = NamaMenu;
-    M->harga = harga; 
-    M->nextMenu = NULL; 
+    M->harga = harga;
+    M->nextMenu = NULL;
     return M;
 }
 
@@ -18,9 +18,9 @@ void insertMenu(ListMenu *L, adrMenu M){
     if (L->firstMenu == NULL){
         L->firstMenu = M;
     }else{
-        adrMenu Q = L->firstMenu; 
+        adrMenu Q = L->firstMenu;
         while (Q->nextMenu != NULL){
-            Q = Q->nextMenu; 
+            Q = Q->nextMenu;
         }
         Q->nextMenu = M;
     }
@@ -34,7 +34,7 @@ void isiMenu(ListMenu *L){
     insertMenu(L,M);
     M = buatMenu("kopi kisah aren", 25000);
     insertMenu(L,M);
-    M = buatMenu("golden", 33000);
+    M = buatMenu("golden latte", 33000);
     insertMenu(L,M);
     M = buatMenu("bajigur latte", 33000);
     insertMenu(L,M);
@@ -44,32 +44,41 @@ void isiMenu(ListMenu *L){
 
 void printMenu(ListMenu L) {
     adrMenu M = L.firstMenu;
-    cout << "+--------------------+--------+" << endl;
-    cout << "| Nama Menu          | Harga  |" << endl;
-    cout << "+--------------------+--------+" << endl;
+    int nomor = 1;
+    cout << "+----+----------------------+-------+" << endl;
+    cout << "| No | Nama Menu            | Harga |" << endl;
+    cout << "+----+----------------------+-------+" << endl;
     while (M != nullptr) {
+        cout << "| " << nomor;
+        for (int i = to_string(nomor).length(); i < 3; i++) {
+            cout << " ";
+        }
         cout << "| " << M->Nama;
         for (int i = M->Nama.length(); i < 21; i++) {
             cout << " ";
         }
         cout << "| " << M->harga;
-        for (int i = to_string(M->harga).length(); i < 7; i++) {
+        for (int i = to_string(M->harga).length(); i < 6; i++) {
             cout << " ";
         }
         cout << "|" << endl;
         M = M->nextMenu;
+        nomor++;
     }
-    cout << "+--------------------+--------+" << endl;
+    cout << "+----+----------------------+-------+" << endl;
 }
 
-adrMenu searchMenu(ListMenu L, string NamaMenu){
-    adrMenu M = L.firstMenu;
-    while (M != NULL){
-        if (M->Nama == NamaMenu){
+adrMenu searchMenu(ListMenu L, int nomor) {
+     adrMenu M = L.firstMenu;
+    int i = 1;
+    while (M != NULL) {
+        if (i == nomor) {
             return M;
         }
         M = M->nextMenu;
+        i++;
     }
+    cout << "Menu dengan nomor " << nomor << " tidak ditemukan." << endl;
     return NULL;
 }
 
@@ -108,13 +117,13 @@ void buatListPelanggan(ListPelanggan *P)
 
 void insertPelanggan(ListPelanggan *L, adrPelanggan P) {
     if (L->firstPelanggan == NULL) {
-        
+
         L->firstPelanggan = P;
         L->LastPelanggan = P;
         P->prevPelanggan = NULL;
         P->nextPelanggan = NULL;
     } else {
-       
+
         L->LastPelanggan->nextPelanggan = P;
         P->prevPelanggan = L->LastPelanggan;
         L->LastPelanggan = P;
@@ -133,7 +142,7 @@ void deleteFirstPelanggan(ListPelanggan *L) {
         L->firstPelanggan = L->firstPelanggan->nextPelanggan;
         L->firstPelanggan->prevPelanggan = NULL;
         P->nextPelanggan = NULL;
-        delete P; 
+        delete P;
     }
 }
 

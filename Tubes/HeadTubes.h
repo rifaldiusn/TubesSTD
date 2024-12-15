@@ -54,7 +54,7 @@ void buatListMenu(ListMenu *P);
 void insertMenu(ListMenu L, adrMenu M);
 void isiMenu(ListMenu *L);
 void printMenu(ListMenu L);
-adrMenu searchMenu(ListMenu L, string NamaMenu);
+adrMenu searchMenu(ListMenu L, int nomor);
 
 adrPelanggan buatPelanggan(string namaPelanggan,int Harga);
 void buatListPelanggan(ListPelanggan *P);

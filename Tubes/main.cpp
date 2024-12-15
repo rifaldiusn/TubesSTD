@@ -12,12 +12,12 @@ int main()
     string nama;
     cin >> nama;
     cout << "ingin memesan apa ? ";
-    string pesanan;
-    cin >> pesanan;
+    int noPesanan;
+    cin >> noPesanan;
     ListPelanggan Lpelanggan;
     buatListPelanggan(&Lpelanggan);
     adrPelanggan Pel = buatPelanggan(nama, 0);
-    adrMenu M = searchMenu(Lmenu, pesanan);
+    adrMenu M = searchMenu(Lmenu, noPesanan);
     ListPesanan Lpesanan;
     buatListPesanan(&Lpesanan);
     adrPesanan P = buatPesanan(M, Pel);
