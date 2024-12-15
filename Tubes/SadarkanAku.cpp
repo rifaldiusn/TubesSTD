@@ -2,6 +2,8 @@
 #include "HeadTubes.h"
 using namespace std;
 
+//Menu ========================================================================
+
 adrMenu buatMenu(string NamaMenu, int harga){
    adrMenu M = new Menu;
     M->Nama = NamaMenu;
@@ -98,7 +100,7 @@ void deleteFirst(ListMenu *L) {
         delete P;
     }
 }
-
+//pelanggan ========================================================================
 adrPelanggan buatPelanggan(string namaPelanggan, int harga)
 {
     adrPelanggan Pp = new Pelanggan;
@@ -156,14 +158,74 @@ void printPelanggan(ListPelanggan L) {
     }
 }
 
+adrPelanggan searchPelanggan(ListPelanggan L, string nama) {
+    adrPelanggan P = L.firstPelanggan;
+    while (P != NULL) {
+        if (P->nama == nama) {
+            return P;
+        }
+        P = P->nextPelanggan;
+    }
+    return NULL;
+}
+
+//pesanan ========================================================================
+
 adrPesanan buatPesanan(adrMenu M, adrPelanggan P){
     adrPesanan Ps = new Pesanan;
     Ps->nextPesanan = NULL;
     Ps->Menu = M;
     Ps->Pelanggan = P;
+    Ps->Pelanggan->totalHarga += M->harga;
     return Ps;
 }
 
 void buatListPesanan(ListPesanan *P){
     P->firstPesanan = NULL;
+}
+
+void insertPesanan(ListPesanan *L, adrPesanan P){
+    if (L->firstPesanan == NULL){
+        L->firstPesanan = P;
+    }else{
+        adrPesanan Q = L->firstPesanan;
+        while (Q->nextPesanan != NULL){
+            Q = Q->nextPesanan;
+        }
+        Q->nextPesanan = P;
+    }
+}
+
+void printPesanan(ListPesanan L){
+    adrPesanan P1 = L.firstPesanan;
+    adrPesanan cek = L.firstPesanan;
+    while (P1 != NULL){
+
+        //masih ngebug gak tau wan harus beres ma maneh urang dah males
+            if (cek != P1){
+
+                anakPrintPesanan(L, P1->Pelanggan->nama);
+            }else {
+                cek = cek->nextPesanan;
+            }
+        P1 = P1->nextPesanan;
+    }
+
+}
+
+void anakPrintPesanan(ListPesanan L, string namaPelanggan) {
+   adrPesanan P = L.firstPesanan;
+    bool found = false;
+    cout << "Pesanan untuk pelanggan dengan nama " << namaPelanggan << ":" << endl;
+    while (P != nullptr) {
+        if (P->Pelanggan->nama == namaPelanggan) {
+            found = true;
+            cout << "Nama Menu: " << P->Menu->Nama << ", Harga: " << P->Menu->harga << endl;
+        }
+        cout << endl;
+        P = P->nextPesanan;
+    }
+    if (!found) {
+        cout << "Pesanan untuk pelanggan dengan nama " << namaPelanggan << " tidak ditemukan." << endl;
+    }
 }

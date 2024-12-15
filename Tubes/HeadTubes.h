@@ -51,20 +51,24 @@ struct ListMenu{
 
 adrMenu buatMenu(string NamaMenu, int harga);
 void buatListMenu(ListMenu *P);
-void insertMenu(ListMenu L, adrMenu M);
+void insertMenu(ListMenu *L, adrMenu M);
 void isiMenu(ListMenu *L);
 void printMenu(ListMenu L);
 adrMenu searchMenu(ListMenu L, int nomor);
 
 adrPelanggan buatPelanggan(string namaPelanggan,int Harga);
 void buatListPelanggan(ListPelanggan *P);
-void insertPelanggan(ListPelanggan L,adrPelanggan P);
+void insertPelanggan(ListPelanggan *L,adrPelanggan P);
 void printPelanggan(ListPelanggan L);
 void deleteFirstPelanggan(ListPelanggan *L);
+adrPelanggan searchPelanggan(ListPelanggan L, string nama);
 
 
 adrPesanan buatPesanan(adrMenu M, adrPelanggan P);
 void buatListPesanan(ListPesanan *P);
+void insertPesanan(ListPesanan *L, adrPesanan P);
+void printPesanan(ListPesanan L);
+void anakPrintPesanan(ListPesanan L, string P);
 
 
 #endif // HEADTUBES_H_INCLUDED
