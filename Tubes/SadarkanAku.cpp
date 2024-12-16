@@ -198,34 +198,20 @@ void insertPesanan(ListPesanan *L, adrPesanan P){
 
 void printPesanan(ListPesanan L){
     adrPesanan P1 = L.firstPesanan;
-    adrPesanan cek = L.firstPesanan;
-    while (P1 != NULL){
-
-        //masih ngebug gak tau wan harus beres ma maneh urang dah males
-            if (cek != P1){
-
-                anakPrintPesanan(L, P1->Pelanggan->nama);
-            }else {
-                cek = cek->nextPesanan;
+    cout << "Pesanan yang ada: " << endl;
+    while (P1 != NULL) {
+        cout << "Nama Pelanggan: " << P1->Pelanggan->nama << endl;
+        adrPesanan P2 = L.firstPesanan;
+        while (P2 != NULL) {
+            if (P1->Pelanggan->nama == P2->Pelanggan->nama) {
+                cout << "  Nama Menu: " << P2->Menu->Nama << ", Harga: " << P2->Menu->harga << endl;
             }
-        P1 = P1->nextPesanan;
-    }
-
-}
-
-void anakPrintPesanan(ListPesanan L, string namaPelanggan) {
-   adrPesanan P = L.firstPesanan;
-    bool found = false;
-    cout << "Pesanan untuk pelanggan dengan nama " << namaPelanggan << ":" << endl;
-    while (P != nullptr) {
-        if (P->Pelanggan->nama == namaPelanggan) {
-            found = true;
-            cout << "Nama Menu: " << P->Menu->Nama << ", Harga: " << P->Menu->harga << endl;
+            P2 = P2->nextPesanan;
         }
-        cout << endl;
-        P = P->nextPesanan;
-    }
-    if (!found) {
-        cout << "Pesanan untuk pelanggan dengan nama " << namaPelanggan << " tidak ditemukan." << endl;
+        string Temp = P1->Pelanggan->nama;
+        while (P1 != NULL && P1->Pelanggan->nama == Temp) {
+            P1 = P1->nextPesanan;
+        }
     }
 }
+
