@@ -23,8 +23,8 @@ int main()
     cout << "================================" << endl;
     cout << "Selamat Datang di Kisah Kopi"<< endl;
     cout << "================================"<< endl;
-    cout << "1. Menambah Pesanan"<< endl;
-    cout << "2. Lihat Pesanan"<< endl;
+    cout << "1. Menambah data"<< endl;
+    cout << "2. Print data"<< endl;
     cout << "3. Hapus Pesanan"<< endl;
     cout << "4. Exit"<< endl;
     cout << "Pilihan: ";
@@ -33,64 +33,119 @@ int main()
     string jawaban;
     switch (pilihan){
     case 1:
-        printMenu(Lmenu);
-        cout << "pesanan atas nama orang baru atau enggak? (y/n)"<< endl;
-        cin >> jawaban;
-        if (jawaban == "y"){
-            string nama;
-            cout << "Masukkan nama pelanggan: ";
-            cin >> nama;
-
-            adrPelanggan Pel = buatPelanggan(nama,0);
-            insertPelanggan(&Lpelanggan,Pel);
-
-            cout << "Masukkan nomor menu(0 buat kalo selesai): ";
-            int pilihanMenu;
-            cin >> pilihanMenu;
-
-            while (pilihanMenu != 0){
-                adrMenu M = searchMenu(Lmenu,pilihanMenu);
-                adrPesanan P = buatPesanan(M,Pel);
-                insertPesanan(&Lpesanan,P);
-                cout << "Masukkan nomor menu(0 buat kalo selesai): ";
-                cin >> pilihanMenu;
-            }
-
-            cout << "Pesanan berhasil ditambahkan" << endl;
-            cout << "total harga " << Pel->totalHarga << endl;
-        } else {
-            cout << "masukan nama pelanggan" << endl;
-            string namaPel;
-            cin >> namaPel;
-            adrPelanggan Pel = searchPelanggan(Lpelanggan,namaPel);
-            if (Pel == NULL){
-                cout << "Pelanggan tidak ditemukan" << endl;
-            } else {
-                cout << "Masukkan nomor menu(0 buat kalo selesai): ";
-                int pilihanMenu;
-                cin >> pilihanMenu;
-
-                while (pilihanMenu != 0){
-                    adrMenu M = searchMenu(Lmenu,pilihanMenu);
-                    adrPesanan P = buatPesanan(M,Pel);
-                    insertPesanan(&Lpesanan,P);
-                    cout << "Masukkan nomor menu(0 buat kalo selesai): ";
-                    cin >> pilihanMenu;
+        cout << "ingin menambahkan data apa ?" << endl;
+        cout << "1. Menu" << endl;
+        cout << "2. Pelanggan" << endl;
+        cout << "3. Pesanan" << endl;
+        cout << "Pilihan: ";
+        int PilihNambah;
+        cin >> PilihNambah;
+        cout << endl;
+        switch (PilihNambah){
+            case 1:{
+                string NamaMenu;
+                int hargaMenu;
+                cout << "Masukkan Nama Menu: ";
+                cin >> NamaMenu;
+                cout << "Masukkan Harga Menu: ";
+                cin >> hargaMenu;
+                if (cariMenu(Lmenu, NamaMenu) != NULL){
+                    cout << "Menu sudah ada" << endl;
+                    break;
                 }
+                adrMenu M = buatMenu(NamaMenu, hargaMenu);
+                insertMenu(&Lmenu, M);
+                cout << "Menu berhasil ditambahkan" << endl;
+                break;
+            }
+            case 2:{
+                string namaPelanggan;
+                cout << "Masukkan Nama Pelanggan: ";
+                cin >> namaPelanggan;
+                searchPelanggan(Lpelanggan, namaPelanggan);
+                if (searchPelanggan(Lpelanggan, namaPelanggan) != NULL){
+                    cout << "Pelanggan sudah ada" << endl;
+                    break;
+                }
+                adrPelanggan P = buatPelanggan(namaPelanggan, 0);
+                insertPelanggan(&Lpelanggan, P);
+                cout << "Pelanggan berhasil ditambahkan" << endl;
+                break;
+            }
+            case 3:{
+                printMenu(Lmenu);
+                cout << "ini orang baru atau bukan yang pesen ?(y/n)" << endl;
+                string answerMe;
+                cin >> answerMe;
+                if (answerMe == "y"){
+                    string namaPelanggan;
+                    cout << "Masukkan Nama Pelanggan: ";
+                    cin >> namaPelanggan;
 
-                cout << "Pesanan berhasil ditambahkan" << endl;
-                cout << "total harga " << Pel->totalHarga << endl;
+                    adrPelanggan P = buatPelanggan(namaPelanggan, 0);
+                    insertPelanggan(&Lpelanggan, P);
+                   
+                    cout << "Masukkan nomor menu yang ingin dipesan: ";
+                    int nomorMenu;
+                    cin >> nomorMenu;
+                    adrMenu M = searchMenu(Lmenu, nomorMenu);
+                    if (M == NULL){
+                        cout << "Menu tidak ditemukan" << endl;
+                        break;
+                    }
+                    adrPesanan Pp = buatPesanan(M, P);
+                    insertPesanan(&Lpesanan, Pp);
+                    cout << "Pesanan berhasil ditambahkan" << endl;
+                }else {
+                    printPelanggan(Lpelanggan);
+                    cout << "Masukkan nama pelanggan yang sudah ada: ";
+                    string namaPelanggan;
+                    cin >> namaPelanggan;
+                    adrPelanggan P = searchPelanggan(Lpelanggan, namaPelanggan);
+                    if (P == NULL){
+                        cout << "Pelanggan tidak ditemukan" << endl;
+                        break;
+                    }
+                    cout << "Masukkan nomor menu yang ingin dipesan: ";
+                    int nomorMenu;
+                    cin >> nomorMenu;
+                    adrMenu M = searchMenu(Lmenu, nomorMenu);
+                    if (M == NULL){
+                        cout << "Menu tidak ditemukan" << endl;
+                        break;
+                    }
+                    adrPesanan Pp = buatPesanan(M, P);
+                    insertPesanan(&Lpesanan, Pp);
+                    cout << "Pesanan berhasil ditambahkan" << endl;
+                }
+                break;
             }
         }
-        break;
+       break;
     case 2: {
-        adrPesanan P = Lpesanan.firstPesanan;
-        if (P == NULL){
-            cout << "Tidak ada pesanan" << endl;
-        } else {
-            printPesanan(Lpesanan);
+        cout << "pengen print paan ?" << endl;
+        cout << "1. Menu" << endl;
+        cout << "2. Pelanggan" << endl;
+        cout << "3. Pesanan" << endl;
+        cout << "Pilihan: ";
+        int PilihPrint;
+        cin >> PilihPrint;
+        switch (PilihPrint){
+            case 1: {
+                printMenu(Lmenu);
+                break;
+            }
+            case 2: {
+                printPelanggan(Lpelanggan);
+                break;
+            }
+            case 3: {
+                printPesanan(Lpesanan);
+                break;
+            }
+            break;
         }
-        break;
+
     }
 
     case 3: {

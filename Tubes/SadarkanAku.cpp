@@ -84,6 +84,16 @@ adrMenu searchMenu(ListMenu L, int nomor) {
     return NULL;
 }
 
+adrMenu cariMenu(ListMenu L, string nama) {
+    adrMenu M = L.firstMenu;
+    while (M != NULL) {
+        if (M->Nama == nama) {
+            return M;
+        }
+        M = M->nextMenu;
+    }
+    return NULL;
+}
 
 void deleteFirst(ListMenu *L) {
     if (L->firstMenu == NULL) {
@@ -215,3 +225,6 @@ void printPesanan(ListPesanan L){
     }
 }
 
+void tamabahPesanan(){
+
+}

@@ -55,6 +55,7 @@ void insertMenu(ListMenu *L, adrMenu M);
 void isiMenu(ListMenu *L);
 void printMenu(ListMenu L);
 adrMenu searchMenu(ListMenu L, int nomor);
+adrMenu cariMenu(ListMenu L, string nama);
 
 adrPelanggan buatPelanggan(string namaPelanggan,int Harga);
 void buatListPelanggan(ListPelanggan *P);
@@ -68,7 +69,7 @@ adrPesanan buatPesanan(adrMenu M, adrPelanggan P);
 void buatListPesanan(ListPesanan *P);
 void insertPesanan(ListPesanan *L, adrPesanan P);
 void printPesanan(ListPesanan L);
-void anakPrintPesanan(ListPesanan L, string P);
+void tambahPesanan();
 
 
 #endif // HEADTUBES_H_INCLUDED
