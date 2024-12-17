@@ -56,6 +56,8 @@ void isiMenu(ListMenu *L);
 void printMenu(ListMenu L);
 adrMenu searchMenu(ListMenu L, int nomor);
 adrMenu cariMenu(ListMenu L, string nama);
+void carimenuHarga(ListMenu L, int harga);
+void cariMenuPelanggan(ListPesanan L, adrPelanggan P);
 
 adrPelanggan buatPelanggan(string namaPelanggan,int Harga);
 void buatListPelanggan(ListPelanggan *P);
@@ -63,13 +65,16 @@ void insertPelanggan(ListPelanggan *L,adrPelanggan P);
 void printPelanggan(ListPelanggan L);
 void deleteFirstPelanggan(ListPelanggan *L);
 adrPelanggan searchPelanggan(ListPelanggan L, string nama);
+void cariHargaPelanggan(ListPelanggan L, int harga);
+void cariMenuPelanggan(ListPesanan L, adrMenu M);
 
 
 adrPesanan buatPesanan(adrMenu M, adrPelanggan P);
 void buatListPesanan(ListPesanan *P);
 void insertPesanan(ListPesanan *L, adrPesanan P);
 void printPesanan(ListPesanan L);
-void tambahPesanan();
 
+void clear();
+void tunggu();
 
 #endif // HEADTUBES_H_INCLUDED

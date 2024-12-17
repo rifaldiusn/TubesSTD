@@ -95,6 +95,28 @@ adrMenu cariMenu(ListMenu L, string nama) {
     return NULL;
 }
 
+void carimenuHarga(ListMenu L, int harga) {
+    adrMenu M = L.firstMenu;
+    while (M != NULL) {
+        if (M->harga == harga) {
+            cout << "Nama Menu: " << M->Nama << endl;
+            cout << "Harga: " << M->harga << endl;
+        }
+        M = M->nextMenu;
+    }
+}
+
+void cariMenuPelanggan(ListPesanan L, adrPelanggan P){
+    adrPesanan Ps = L.firstPesanan;
+    while (Ps != NULL){
+        if (Ps->Pelanggan == P){
+            cout << "Nama Menu: " << Ps->Menu->Nama << endl;
+            cout << "Harga: " << Ps->Menu->harga << endl;
+        }
+        Ps = Ps->nextPesanan;
+    }
+}
+
 void deleteFirst(ListMenu *L) {
     if (L->firstMenu == NULL) {
         // Jika list kosong, tidak ada yang dihapus
@@ -160,11 +182,15 @@ void deleteFirstPelanggan(ListPelanggan *L) {
 
 void printPelanggan(ListPelanggan L) {
     adrPelanggan P = L.firstPelanggan;
-    while (P != NULL) {
-        cout << "Nama Pelanggan: " << P->nama << endl;
-        cout << "Total Harga: " << P->totalHarga << endl;
-        cout << endl;
+    if (P == NULL) {
+        cout << "Tidak ada pelanggan" << endl;
+    }else {
+        while (P != NULL) {
+            cout << "Nama Pelanggan: " << P->nama << endl;
+            cout << "Total Harga: " << P->totalHarga << endl;
+            cout << endl;
         P = P->nextPelanggan;
+        }
     }
 }
 
@@ -177,6 +203,28 @@ adrPelanggan searchPelanggan(ListPelanggan L, string nama) {
         P = P->nextPelanggan;
     }
     return NULL;
+}
+
+void cariHargaPelanggan(ListPelanggan L, int harga) {
+    adrPelanggan P = L.firstPelanggan;
+    while (P != NULL) {
+        if (P->totalHarga == harga) {
+            cout << "Nama Pelanggan: " << P->nama << endl;
+            cout << "Total Harga: " << P->totalHarga << endl;
+        }
+        P = P->nextPelanggan;
+    }
+}
+
+void cariMenuPelanggan(ListPesanan L, adrMenu M) {
+    adrPesanan Ps = L.firstPesanan;
+    while (Ps != NULL) {
+        if (Ps->Menu == M) {
+            cout << "Nama Pelanggan: " << Ps->Pelanggan->nama << endl;
+            cout << "Total Harga: " << Ps->Pelanggan->totalHarga << endl;
+        }
+        Ps = Ps->nextPesanan;
+    }
 }
 
 //pesanan ========================================================================
@@ -208,23 +256,34 @@ void insertPesanan(ListPesanan *L, adrPesanan P){
 
 void printPesanan(ListPesanan L){
     adrPesanan P1 = L.firstPesanan;
-    cout << "Pesanan yang ada: " << endl;
-    while (P1 != NULL) {
-        cout << "Nama Pelanggan: " << P1->Pelanggan->nama << endl;
-        adrPesanan P2 = L.firstPesanan;
-        while (P2 != NULL) {
-            if (P1->Pelanggan->nama == P2->Pelanggan->nama) {
-                cout << "  Nama Menu: " << P2->Menu->Nama << ", Harga: " << P2->Menu->harga << endl;
+    if (P1 == NULL) {
+        cout << "Tidak ada pesanan" << endl;
+    }else{
+        cout << "Pesanan yang ada: " << endl;
+        while (P1 != NULL) {
+            cout << "Nama Pelanggan: " << P1->Pelanggan->nama << endl;
+            adrPesanan P2 = L.firstPesanan;
+            while (P2 != NULL) {
+                if (P1->Pelanggan->nama == P2->Pelanggan->nama) {
+                    cout << "  Nama Menu: " << P2->Menu->Nama << ", Harga: " << P2->Menu->harga << endl;
+                }
+                P2 = P2->nextPesanan;
             }
-            P2 = P2->nextPesanan;
-        }
-        string Temp = P1->Pelanggan->nama;
-        while (P1 != NULL && P1->Pelanggan->nama == Temp) {
-            P1 = P1->nextPesanan;
+            string Temp = P1->Pelanggan->nama;
+            while (P1 != NULL && P1->Pelanggan->nama == Temp) {
+                P1 = P1->nextPesanan;
+            }
         }
     }
 }
 
-void tamabahPesanan(){
 
+void clear(){
+     cout << "\033[2J\033[1;1H";
+}
+
+void tunggu(){
+    cout << "Tekan apa saja untuk melanjutkan";
+    cin.ignore();
+    cin.get();
 }
