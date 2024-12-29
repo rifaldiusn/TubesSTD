@@ -446,7 +446,7 @@ void clear(){
 }
 
 void tunggu(){
-    cout << "Tekan apa saja untuk melanjutkan";
+    cout << "Tekan enter untuk melanjutkan";
     cin.ignore();
     cin.get();
 }
