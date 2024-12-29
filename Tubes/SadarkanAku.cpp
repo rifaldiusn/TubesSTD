@@ -30,17 +30,17 @@ void insertMenu(ListMenu *L, adrMenu M){
 
 void isiMenu(ListMenu *L){
     adrMenu M;
-    M = buatMenu("kopi kisah asmara", 30000);
+    M = buatMenu("kopi", 30000);
     insertMenu(L,M);
-    M = buatMenu("kopi kisah manis", 27000);
+    M = buatMenu("teh", 27000);
     insertMenu(L,M);
-    M = buatMenu("kopi kisah aren", 25000);
+    M = buatMenu("roti", 25000);
     insertMenu(L,M);
-    M = buatMenu("golden latte", 33000);
+    M = buatMenu("kopsu", 33000);
     insertMenu(L,M);
-    M = buatMenu("bajigur latte", 33000);
+    M = buatMenu("josu", 33000);
     insertMenu(L,M);
-    M = buatMenu("kopi susu lokal", 23000);
+    M = buatMenu("mie", 23000);
 
 }
 
@@ -117,21 +117,92 @@ void cariMenuPelanggan(ListPesanan L, adrPelanggan P){
     }
 }
 
-void deleteFirst(ListMenu *L) {
+void hapusMenuFirst(ListMenu *L) {
     if (L->firstMenu == NULL) {
-        // Jika list kosong, tidak ada yang dihapus
         return;
     } else if (L->firstMenu->nextMenu == NULL) {
-        // Jika list hanya memiliki satu node, maka hapus node tersebut
         delete L->firstMenu;
         L->firstMenu = NULL;
     } else {
-        // Jika list memiliki lebih dari satu node, maka hapus node pertama
         adrMenu P = L->firstMenu;
         L->firstMenu = P->nextMenu;
-        delete P;
     }
 }
+
+void hapusMenuLast(ListMenu *L) {
+    if (L->firstMenu == NULL) {
+        return;
+    } else if (L->firstMenu->nextMenu == NULL) {
+        delete L->firstMenu;
+        L->firstMenu = NULL;
+    } else {
+        adrMenu P = L->firstMenu;
+        while (P->nextMenu->nextMenu != NULL) {
+            P = P->nextMenu;
+        }
+        delete P->nextMenu;
+        P->nextMenu = NULL;
+    }
+}
+
+void hapusMenuAfter(ListMenu *L, adrMenu M) {
+        adrMenu P = L->firstMenu;
+        while (P->nextMenu != M) {
+            P = P->nextMenu;
+        }
+        P->nextMenu = M->nextMenu;
+}
+
+void hapusMenu(ListMenu *L, adrMenu M, ListPesanan *Lpesanan) {
+    if (M == NULL) {
+        return;
+    } else if (M == L->firstMenu) {
+        hapusMenuFirst(L);
+    } else if (M->nextMenu == NULL) {
+        hapusMenuLast(L);
+    } else {
+        hapusMenuAfter(L, M);
+    }
+    hapusMenuPesanan(Lpesanan, M);
+}
+
+void hapusMenuPesanan(ListPesanan *L, adrMenu M){
+    adrPesanan current = L->firstPesanan;
+    adrPesanan prev = NULL;
+
+    while (current != NULL) {
+        if (current->Menu == M) {
+            current->Pelanggan->totalHarga -= M->harga;
+            if (prev == NULL) {
+                L->firstPesanan = current->nextPesanan;
+            } else {
+                prev->nextPesanan = current->nextPesanan;
+            }
+            adrPesanan temp = current;
+            current = current->nextPesanan;
+            temp->nextPesanan = NULL;
+        } else {
+            prev = current;
+            current = current->nextPesanan;
+        }
+    }
+}
+
+void cariMenudiPelangganTertentu(ListPesanan L, adrPelanggan P, adrMenu M){
+    adrPesanan Ps = L.firstPesanan;
+    int i = 1;
+    while (Ps != NULL){
+        if (Ps->Pelanggan == P && Ps->Menu == M){
+            cout << Ps->Pelanggan->nama << " memesan " << Ps->Menu->Nama << endl;
+            i = 0;
+        }
+        Ps = Ps->nextPesanan;
+    }
+    if (i == 1){
+       cout << "Pelanggan tidak memesan menu tersebut" << endl;
+    }
+}
+
 //pelanggan ========================================================================
 adrPelanggan buatPelanggan(string namaPelanggan, int harga)
 {
@@ -165,22 +236,8 @@ void insertPelanggan(ListPelanggan *L, adrPelanggan P) {
     }
 }
 
-void deleteFirstPelanggan(ListPelanggan *L) {
-    if (L->firstPelanggan == NULL) {
-        return;
-    } else if (L->firstPelanggan == L->LastPelanggan) {
-        L->firstPelanggan = NULL;
-        L->LastPelanggan = NULL;
-    } else {
-        adrPelanggan P = L->firstPelanggan;
-        L->firstPelanggan = L->firstPelanggan->nextPelanggan;
-        L->firstPelanggan->prevPelanggan = NULL;
-        P->nextPelanggan = NULL;
-        delete P;
-    }
-}
 
-void printPelanggan(ListPelanggan L) {
+void printPelanggan(ListPelanggan L, ListPesanan Lpesanan) {
     adrPelanggan P = L.firstPelanggan;
     if (P == NULL) {
         cout << "Tidak ada pelanggan" << endl;
@@ -188,9 +245,12 @@ void printPelanggan(ListPelanggan L) {
         while (P != NULL) {
             cout << "Nama Pelanggan: " << P->nama << endl;
             cout << "Total Harga: " << P->totalHarga << endl;
+            int i = banyakPesananPelanggan(Lpesanan, P);
+            cout << "Banyak Pesanan: " << i << endl;
             cout << endl;
         P = P->nextPelanggan;
         }
+
     }
 }
 
@@ -225,6 +285,67 @@ void cariMenuPelanggan(ListPesanan L, adrMenu M) {
         }
         Ps = Ps->nextPesanan;
     }
+}
+void hapusPelangganFirst(ListPelanggan *L) {
+    if (L->firstPelanggan == NULL) {
+        return;
+    } else if (L->firstPelanggan == L->LastPelanggan) {
+        L->firstPelanggan = NULL;
+        L->LastPelanggan = NULL;
+    } else {
+        adrPelanggan P = L->firstPelanggan;
+        L->firstPelanggan = P->nextPelanggan;
+        L->firstPelanggan->prevPelanggan = NULL;
+        P->nextPelanggan = NULL;
+    }
+}
+
+void hapusPelangganLast(ListPelanggan *L) {
+    if (L->firstPelanggan == NULL) {
+        return;
+    } else if (L->firstPelanggan == L->LastPelanggan) {
+        L->firstPelanggan = NULL;
+        L->LastPelanggan = NULL;
+    } else {
+        adrPelanggan P = L->LastPelanggan;
+        L->LastPelanggan = P->prevPelanggan;
+        L->LastPelanggan->nextPelanggan = NULL;
+        P->prevPelanggan = NULL;
+    }
+}
+
+void hapusPelangganAfter(ListPelanggan *L, adrPelanggan P) {
+        adrPelanggan Q = P->prevPelanggan;
+        adrPelanggan R = P->nextPelanggan;
+        Q->nextPelanggan = R;
+        R->prevPelanggan = Q;
+        P->nextPelanggan = NULL;
+        P->prevPelanggan = NULL;
+}
+
+void hapusPelanggan(ListPelanggan *L, adrPelanggan P, ListPesanan *Lpesanan) {
+    if (P == NULL) {
+        return;
+    } else if (P == L->firstPelanggan) {
+        hapusPelangganFirst(L);
+    } else if (P == L->LastPelanggan) {
+        hapusPelangganLast(L);
+    } else {
+        hapusPelangganAfter(L, P);
+    }
+    hapusPesananPelanggan(Lpesanan, P);
+}
+
+int banyakPesananPelanggan(ListPesanan L, adrPelanggan P){
+    adrPesanan Ps = L.firstPesanan;
+    int i = 0;
+    while (Ps != NULL){
+        if (Ps->Pelanggan == P){
+            i++;
+        }
+        Ps = Ps->nextPesanan;
+    }
+    return i;
 }
 
 //pesanan ========================================================================
@@ -277,6 +398,48 @@ void printPesanan(ListPesanan L){
     }
 }
 
+void hapusPesananPelanggan(ListPesanan *L, adrPelanggan P){
+    adrPesanan current = L->firstPesanan;
+    adrPesanan prev = NULL;
+
+    while (current != NULL) {
+        if (current->Pelanggan == P) {
+            if (prev == NULL) {
+                L->firstPesanan = current->nextPesanan;
+            } else {
+                prev->nextPesanan = current->nextPesanan;
+            }
+            adrPesanan temp = current;
+            current = current->nextPesanan;
+            temp->nextPesanan = NULL;
+        } else {
+            prev = current;
+            current = current->nextPesanan;
+        }
+    }
+}
+
+void hapusPesananMenu(ListPesanan *L, adrMenu M, adrPelanggan P){
+    adrPesanan current = L->firstPesanan;
+    adrPesanan prev = NULL;
+
+    while (current != NULL) {
+        if (current->Menu == M && current->Pelanggan == P) {
+            current->Pelanggan->totalHarga -= M->harga;
+            if (prev == NULL) {
+                L->firstPesanan = current->nextPesanan;
+            } else {
+                prev->nextPesanan = current->nextPesanan;
+            }
+            adrPesanan temp = current;
+            current = current->nextPesanan;
+            temp->nextPesanan = NULL;
+        } else {
+            prev = current;
+            current = current->nextPesanan;
+        }
+    }
+}
 
 void clear(){
      cout << "\033[2J\033[1;1H";
